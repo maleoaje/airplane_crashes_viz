@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/data.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+        <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+        <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+        <link rel="stylesheet" href="/style.css">
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+    </head>
+
+    <body><br><br><br><br>
+        <center>
+            <div id="container3"></div>
+        </center>
+
+        <br><br><br><br>
+        <center>
+
+            <figure class="highcharts-figure">
+                <div id="container2"></div>
+                <p class="highcharts-description">
+                    This chart shows how the rate of air crash fatalities and how they have reduced through the years.
+                </p>
+            </figure>
+            
+            
+                    </center>
+                    <br><br><br><br>
+        <center><figure class="highcharts-figure">
+            <div id="container"></div>
+            <p class="highcharts-description">
+                This pie chart shows the survival rate from Airplane crashes from 1970-2009.
+            </p>
+        </figure></center>
+
+        <br><br><br><br>
+
+       
+    </body>
+
+
+
+    <!-- Continental representation of airplan crashes -->
+<script>
+    (async () => {
+
+const topology = await fetch(
+    'https://code.highcharts.com/mapdata/custom/world-continents.topo.json'
+).then(response => response.json());
+
+// Prepare demo data. The data is joined to map using value of 'hc-key'
+// property by default. See API docs for 'joinBy' for more info on linking
+// data and map.
+const data = [
+    ['eu', 553], ['oc', 63], ['af', 325], ['as', 523], ['na', 1015], ['sa', 405]
+];
+
+// Create the chart
+Highcharts.mapChart('container3', {
+    chart: {
+        map: topology
+    },
+
+    title: {
+        text: 'Continental representation of airplan crashes'
+    },
+
+    subtitle: {
+        text: 'Source map: data.world'
+    },
+
+    mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+            verticalAlign: 'bottom'
+        }
+    },
+
+    colorAxis: {
+        min: 0
+    },
+
+    series: [{
+        data: data,
+        name: 'Random data',
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }]
+});
+
+})();
+
+</script>
+    
+<!-- survival pie chart -->
+  <script>
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Airplane Crash Survival v Fatality chart (1970-2009).'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
+        }
+    },
+    series: [{
+        name: 'Passengers',
+        colorByPoint: true,
+        data: [{
+            name: 'Survived',
+            y: 30.51,
+            sliced: true,
+            selected: true
+        },  {
+            name: 'Fatalities',
+            y: 69.49
+        },]
+    }]
+});
+
+  </script>
+<!-- Line chart passengers and fatalities -->
+<script>
+    Highcharts.chart('container2', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: '5 year distribution of airplane crashes: Passengers v Fatalaties'
+    },
+    subtitle: {
+        text: 'Source: ' +
+            'data.world'
+    },
+    xAxis: {
+        categories: ['1970-1974', '1975-1979', '1980-1984', '1985-1989', '1990-1994', '1995-1999', '2000-2004', '2005-2009', ]
+    },
+    yAxis: {
+        title: {
+            text: 'Crashes'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: true
+        }
+    },
+    series: [{
+        name: 'Passengers',
+        data: [15380, 12778, 11413, 15572, 12721, 12424, 8711, 7295]
+    }, {
+        name: 'Fatalities',
+        data: [11721, 9405, 7683, 10573, 8325, 8166, 6268, 4774]
+    }]
+});
+
+</script>
+</html>
+
+
+
